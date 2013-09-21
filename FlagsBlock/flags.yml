@@ -1,0 +1,15 @@
+Flag:
+  DragonEggTp:
+    Description: Toggles allowing a dragon egg to teleport.
+  Grass:
+    Description: Toggles grass spreading.
+  Ice:
+    Description: Toggles ice forming in snowy biomes.
+  IceMelt:
+    Description: Toggles ice melting due to light level.
+  LeafDecay:
+    Description: Toggles leaf decay over time.
+  Snow:
+    Description: Toggles snow forming in snowy biomes.
+  SnowMelt:
+    Description: Toggles snow melting due to light level.
