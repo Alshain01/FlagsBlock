@@ -69,7 +69,7 @@ public class FlagsBlock extends JavaPlugin {
 			// Register it!
 			// Be sure to send a plug-in name or group description for the help command!
 			// It can be this.getName() or another string.
-			flags.register(f, desc, true, "Core");
+			flags.register(f, desc, true, "Block");
 		}
 		
 		// Load plug-in events and data
