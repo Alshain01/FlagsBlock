@@ -34,6 +34,7 @@ import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import alshain01.Flags.Flag;
@@ -54,6 +55,13 @@ public class FlagsBlock extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable(){
+		PluginManager pm =  Bukkit.getServer().getPluginManager();
+
+		if(!pm.isPluginEnabled("Flags")) {
+		    this.getLogger().severe("Flags was not found. Shutting down.");
+		    pm.disablePlugin(this);
+		}
+		
 		// Connect to the data file
 		ModuleYML dataFile = new ModuleYML(this, "flags.yml");
 		
