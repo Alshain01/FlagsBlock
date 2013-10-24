@@ -67,7 +67,7 @@ public class FlagsBlock extends JavaPlugin {
 		
 		
 		// Register with Flags
-		Registrar flags = Flags.instance.getRegistrar();
+		Registrar flags = Flags.getRegistrar();
 		for(String f : dataFile.getModuleData().getConfigurationSection("Flag").getKeys(false)) {
 			ConfigurationSection data = dataFile.getModuleData().getConfigurationSection("Flag." + f);
 			
@@ -95,9 +95,9 @@ public class FlagsBlock extends JavaPlugin {
 		private void onBlockForm(BlockFormEvent e) {
 			Flag flag = null;
 			if (e.getNewState().getType() == Material.SNOW) {
-				flag = Flags.instance.getRegistrar().getFlag("Snow");
+				flag = Flags.getRegistrar().getFlag("Snow");
 			} else if (e.getNewState().getType() == Material.ICE) {
-				flag = Flags.instance.getRegistrar().getFlag("Ice");
+				flag = Flags.getRegistrar().getFlag("Ice");
 			}
 			
 			if (flag != null) {
@@ -112,9 +112,9 @@ public class FlagsBlock extends JavaPlugin {
 		private void onBlockFade(BlockFadeEvent e) {
 			Flag flag = null;
 			if (e.getBlock().getType() == Material.SNOW) {
-				flag = Flags.instance.getRegistrar().getFlag("SnowMelt");
+				flag = Flags.getRegistrar().getFlag("SnowMelt");
 			} else if (e.getBlock().getType() == Material.ICE) {
-				flag = Flags.instance.getRegistrar().getFlag("IceMelt");
+				flag = Flags.getRegistrar().getFlag("IceMelt");
 			}
 			
 			if (flag != null) {
@@ -128,7 +128,7 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockSpread(BlockSpreadEvent e) {
 			if (e.getNewState().getType() == Material.GRASS) {
-				Flag flag = Flags.instance.getRegistrar().getFlag("Grass");
+				Flag flag = Flags.getRegistrar().getFlag("Grass");
 				
 				if (flag != null) {
 					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
@@ -142,7 +142,7 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockFromTo(BlockFromToEvent e) {
 			if (e.getBlock().getType() == Material.DRAGON_EGG) {
-				Flag flag = Flags.instance.getRegistrar().getFlag("DragonEggTp");
+				Flag flag = Flags.getRegistrar().getFlag("DragonEggTp");
 				
 				if (flag != null) {
 					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
@@ -155,7 +155,7 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onLeafDecay(LeavesDecayEvent e) {
-			Flag flag = Flags.instance.getRegistrar().getFlag("LeafDecay");
+			Flag flag = Flags.getRegistrar().getFlag("LeafDecay");
 			if (flag != null) {
 				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
