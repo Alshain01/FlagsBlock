@@ -20,7 +20,7 @@
 
  Notice — For any reuse or distribution, you must make clear to others the license terms of this work. The best way to do this is with a link to this web page.
  http://creativecommons.org/licenses/by-nc/3.0/
-*/
+ */
 
 package alshain01.FlagsBlock;
 
@@ -37,74 +37,22 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import alshain01.Flags.Director;
 import alshain01.Flags.Flag;
 import alshain01.Flags.Flags;
 import alshain01.Flags.ModuleYML;
 import alshain01.Flags.Registrar;
-import alshain01.Flags.Director;
 
 /**
- * Flags - Block
- * Module that adds block flags to the plug-in Flags.
+ * Flags - Block Module that adds block flags to the plug-in Flags.
  * 
  * @author Alshain01
  */
 public class FlagsBlock extends JavaPlugin {
-	/**
-	 * Called when this module is enabled
-	 */
-	@Override
-	public void onEnable(){
-		PluginManager pm =  Bukkit.getServer().getPluginManager();
-
-		if(!pm.isPluginEnabled("Flags")) {
-		    this.getLogger().severe("Flags was not found. Shutting down.");
-		    pm.disablePlugin(this);
-		}
-		
-		// Connect to the data file
-		ModuleYML dataFile = new ModuleYML(this, "flags.yml");
-		
-		
-		// Register with Flags
-		Registrar flags = Flags.getRegistrar();
-		for(String f : dataFile.getModuleData().getConfigurationSection("Flag").getKeys(false)) {
-			ConfigurationSection data = dataFile.getModuleData().getConfigurationSection("Flag." + f);
-			
-			// The description that appears when using help commands.
-			String desc = data.getString("Description");
-			
-			// Register it!
-			// Be sure to send a plug-in name or group description for the help command!
-			// It can be this.getName() or another string.
-			flags.register(f, desc, true, "Block");
-		}
-		
-		// Load plug-in events and data
-		Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
-	}
-	
 	/*
 	 * The event handlers for the flags we created earlier
 	 */
-	public class BlockListener implements Listener{
-		/*
-		 * Snow and Ice form event handler
-		 */
-		@EventHandler(ignoreCancelled = true)
-		private void onBlockForm(BlockFormEvent e) {
-			Flag flag = null;
-			if (e.getNewState().getType() == Material.SNOW) {
-				flag = Flags.getRegistrar().getFlag("Snow");
-			} else if (e.getNewState().getType() == Material.ICE) {
-				flag = Flags.getRegistrar().getFlag("Ice");
-			}
-			
-			if (flag != null) {
-				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
-			}
-		}
-		
+	public class BlockListener implements Listener {
 		/*
 		 * Snow and Ice melt event handler
 		 */
@@ -116,49 +64,101 @@ public class FlagsBlock extends JavaPlugin {
 			} else if (e.getBlock().getType() == Material.ICE) {
 				flag = Flags.getRegistrar().getFlag("IceMelt");
 			}
-			
+
 			if (flag != null) {
 				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
-		
+
 		/*
-		 * Grass spread event handler
+		 * Snow and Ice form event handler
 		 */
 		@EventHandler(ignoreCancelled = true)
-		private void onBlockSpread(BlockSpreadEvent e) {
-			if (e.getNewState().getType() == Material.GRASS) {
-				Flag flag = Flags.getRegistrar().getFlag("Grass");
-				
-				if (flag != null) {
-					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
-				}
+		private void onBlockForm(BlockFormEvent e) {
+			Flag flag = null;
+			if (e.getNewState().getType() == Material.SNOW) {
+				flag = Flags.getRegistrar().getFlag("Snow");
+			} else if (e.getNewState().getType() == Material.ICE) {
+				flag = Flags.getRegistrar().getFlag("Ice");
+			}
+
+			if (flag != null) {
+				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
-		
+
 		/*
 		 * Dragon Egg Teleport handler
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockFromTo(BlockFromToEvent e) {
 			if (e.getBlock().getType() == Material.DRAGON_EGG) {
-				Flag flag = Flags.getRegistrar().getFlag("DragonEggTp");
-				
+				final Flag flag = Flags.getRegistrar().getFlag("DragonEggTp");
+
 				if (flag != null) {
 					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 				}
 			}
 		}
-		
+
+		/*
+		 * Grass spread event handler
+		 */
+		@EventHandler(ignoreCancelled = true)
+		private void onBlockSpread(BlockSpreadEvent e) {
+			if (e.getNewState().getType() == Material.GRASS) {
+				final Flag flag = Flags.getRegistrar().getFlag("Grass");
+
+				if (flag != null) {
+					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				}
+			}
+		}
+
 		/*
 		 * Leaf Decay handler
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onLeafDecay(LeavesDecayEvent e) {
-			Flag flag = Flags.getRegistrar().getFlag("LeafDecay");
+			final Flag flag = Flags.getRegistrar().getFlag("LeafDecay");
 			if (flag != null) {
 				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
+	}
+
+	/**
+	 * Called when this module is enabled
+	 */
+	@Override
+	public void onEnable() {
+		final PluginManager pm = Bukkit.getServer().getPluginManager();
+
+		if (!pm.isPluginEnabled("Flags")) {
+			getLogger().severe("Flags was not found. Shutting down.");
+			pm.disablePlugin(this);
+		}
+
+		// Connect to the data file
+		final ModuleYML dataFile = new ModuleYML(this, "flags.yml");
+
+		// Register with Flags
+		final Registrar flags = Flags.getRegistrar();
+		for (final String f : dataFile.getModuleData().getConfigurationSection("Flag").getKeys(false)) {
+			final ConfigurationSection data = dataFile.getModuleData().getConfigurationSection("Flag." + f);
+
+			// The description that appears when using help commands.
+			final String desc = data.getString("Description");
+
+			// Register it!
+			// Be sure to send a plug-in name or group description for the help
+			// command!
+			// It can be this.getName() or another string.
+			flags.register(f, desc, true, "Block");
+		}
+
+		// Load plug-in events and data
+		Bukkit.getServer().getPluginManager()
+				.registerEvents(new BlockListener(), this);
 	}
 }
