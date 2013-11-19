@@ -37,11 +37,11 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import alshain01.Flags.Director;
 import alshain01.Flags.Flag;
 import alshain01.Flags.Flags;
 import alshain01.Flags.ModuleYML;
 import alshain01.Flags.Registrar;
+import alshain01.Flags.area.Area;
 
 /**
  * Flags - Block Module that adds block flags to the plug-in Flags.
@@ -66,7 +66,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -83,7 +83,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -96,7 +96,7 @@ public class FlagsBlock extends JavaPlugin {
 				final Flag flag = Flags.getRegistrar().getFlag("DragonEggTp");
 
 				if (flag != null) {
-					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+					e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 				}
 			}
 		}
@@ -110,7 +110,7 @@ public class FlagsBlock extends JavaPlugin {
 				final Flag flag = Flags.getRegistrar().getFlag("Grass");
 
 				if (flag != null) {
-					e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+					e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 				}
 			}
 		}
@@ -122,7 +122,7 @@ public class FlagsBlock extends JavaPlugin {
 		private void onLeafDecay(LeavesDecayEvent e) {
 			final Flag flag = Flags.getRegistrar().getFlag("LeafDecay");
 			if (flag != null) {
-				e.setCancelled(!Director.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 	}
