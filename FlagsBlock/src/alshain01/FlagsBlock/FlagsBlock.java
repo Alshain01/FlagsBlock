@@ -25,7 +25,7 @@
 package alshain01.FlagsBlock;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,11 +58,16 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockFade(BlockFadeEvent e) {
-			Flag flag = null;
-			if (e.getBlock().getType() == Material.SNOW) {
-				flag = Flags.getRegistrar().getFlag("SnowMelt");
-			} else if (e.getBlock().getType() == Material.ICE) {
-				flag = Flags.getRegistrar().getFlag("IceMelt");
+			Flag flag;
+			switch(e.getBlock().getType()) {
+				case SNOW:
+					flag = Flags.getRegistrar().getFlag("SnowMelt");
+					break;
+				case ICE:
+					flag = Flags.getRegistrar().getFlag("IceMelt");
+					break;
+				default:
+					return;
 			}
 
 			if (flag != null) {
@@ -76,10 +81,15 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockForm(BlockFormEvent e) {
 			Flag flag = null;
-			if (e.getNewState().getType() == Material.SNOW) {
+			switch(e.getBlock().getType()) {
+			case SNOW:
 				flag = Flags.getRegistrar().getFlag("Snow");
-			} else if (e.getNewState().getType() == Material.ICE) {
+				break;
+			case ICE:
 				flag = Flags.getRegistrar().getFlag("Ice");
+				break;
+			default:
+				return;
 			}
 
 			if (flag != null) {
@@ -92,12 +102,18 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockFromTo(BlockFromToEvent e) {
-			if (e.getBlock().getType() == Material.DRAGON_EGG) {
-				final Flag flag = Flags.getRegistrar().getFlag("DragonEggTp");
+			Flag flag = null;
+			
+			switch(e.getBlock().getType()) {
+				case DRAGON_EGG:
+					flag = Flags.getRegistrar().getFlag("DragonEggTp");
+					break;
+				default:
+					return;
+			}
 
-				if (flag != null) {
-					e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
-				}
+			if (flag != null) {
+				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -106,12 +122,18 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockSpread(BlockSpreadEvent e) {
-			if (e.getNewState().getType() == Material.GRASS) {
-				final Flag flag = Flags.getRegistrar().getFlag("Grass");
-
-				if (flag != null) {
-					e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
-				}
+			Flag flag = null;
+			
+			switch(e.getBlock().getType()) {
+				case GRASS:
+					flag = Flags.getRegistrar().getFlag("Grass");
+					break;
+				default:
+					return;
+			}
+			
+			if (flag != null) {
+				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -158,7 +180,6 @@ public class FlagsBlock extends JavaPlugin {
 		}
 
 		// Load plug-in events and data
-		Bukkit.getServer().getPluginManager()
-				.registerEvents(new BlockListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
 	}
 }
