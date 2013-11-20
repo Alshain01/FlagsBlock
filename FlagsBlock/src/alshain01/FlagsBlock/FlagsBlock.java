@@ -24,8 +24,13 @@
 
 package alshain01.FlagsBlock;
 
-import org.bukkit.Bukkit;
+import io.github.alshain01.Flags.Flag;
+import io.github.alshain01.Flags.Flags;
+import io.github.alshain01.Flags.ModuleYML;
+import io.github.alshain01.Flags.Registrar;
+import io.github.alshain01.Flags.area.Area;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,12 +41,6 @@ import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import alshain01.Flags.Flag;
-import alshain01.Flags.Flags;
-import alshain01.Flags.ModuleYML;
-import alshain01.Flags.Registrar;
-import alshain01.Flags.area.Area;
 
 /**
  * Flags - Block Module that adds block flags to the plug-in Flags.
