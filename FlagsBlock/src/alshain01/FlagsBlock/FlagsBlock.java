@@ -27,11 +27,9 @@ package alshain01.FlagsBlock;
 import io.github.alshain01.Flags.Flag;
 import io.github.alshain01.Flags.Flags;
 import io.github.alshain01.Flags.ModuleYML;
-import io.github.alshain01.Flags.Registrar;
 import io.github.alshain01.Flags.area.Area;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
@@ -48,10 +46,29 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Alshain01
  */
 public class FlagsBlock extends JavaPlugin {
+	/**
+	 * Called when this module is enabled
+	 */
+	@Override
+	public void onEnable() {
+		final PluginManager pm = Bukkit.getServer().getPluginManager();
+
+		if (!pm.isPluginEnabled("Flags")) {
+			getLogger().severe("Flags was not found. Shutting down.");
+			pm.disablePlugin(this);
+		}
+
+		// Connect to the data file and register the flags
+		Flags.getRegistrar().register(new ModuleYML(this, "flags.yml"), "Block");
+
+		// Load plug-in events and data
+		Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
+	}
+	
 	/*
 	 * The event handlers for the flags we created earlier
 	 */
-	public class BlockListener implements Listener {
+	private class BlockListener implements Listener {
 		/*
 		 * Snow and Ice melt event handler
 		 */
@@ -146,39 +163,5 @@ public class FlagsBlock extends JavaPlugin {
 				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
-	}
-
-	/**
-	 * Called when this module is enabled
-	 */
-	@Override
-	public void onEnable() {
-		final PluginManager pm = Bukkit.getServer().getPluginManager();
-
-		if (!pm.isPluginEnabled("Flags")) {
-			getLogger().severe("Flags was not found. Shutting down.");
-			pm.disablePlugin(this);
-		}
-
-		// Connect to the data file
-		final ModuleYML dataFile = new ModuleYML(this, "flags.yml");
-
-		// Register with Flags
-		final Registrar flags = Flags.getRegistrar();
-		for (final String f : dataFile.getModuleData().getConfigurationSection("Flag").getKeys(false)) {
-			final ConfigurationSection data = dataFile.getModuleData().getConfigurationSection("Flag." + f);
-
-			// The description that appears when using help commands.
-			final String desc = data.getString("Description");
-
-			// Register it!
-			// Be sure to send a plug-in name or group description for the help
-			// command!
-			// It can be this.getName() or another string.
-			flags.register(f, desc, true, "Block");
-		}
-
-		// Load plug-in events and data
-		Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
 	}
 }
