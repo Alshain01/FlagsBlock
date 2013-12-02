@@ -4,7 +4,7 @@
   <artifactId>FlagsBlock</artifactId>
   <version>1.0.3</version>
   <name>FlagsBlock</name>
-  <description>Module that adds block flags to the Flags plugin.</description>
+  <description>Module that adds block flags to the Flags Bukkit plugin.</description>
   <url>http://dev.bukkit.org/bukkit-plugins/flags/</url> 
   <build>
 	<defaultGoal>clean package install</defaultGoal>
@@ -53,9 +53,6 @@
 	</resources>
   </build>
   
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	
 	<repositories>
 		<repository>
