@@ -24,10 +24,8 @@
 
 package io.github.alshain01.FlagsBlock;
 
-import io.github.alshain01.Flags.Flag;
-import io.github.alshain01.Flags.Flags;
-import io.github.alshain01.Flags.ModuleYML;
-import io.github.alshain01.Flags.area.Area;
+import io.github.alshain01.Flags.*;
+import io.github.alshain01.Flags.System;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -87,7 +85,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!io.github.alshain01.Flags.System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -96,7 +94,7 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockForm(BlockFormEvent e) {
-			Flag flag = null;
+			Flag flag;
 			switch(e.getBlock().getType()) {
 			case SNOW:
 				flag = Flags.getRegistrar().getFlag("Snow");
@@ -109,7 +107,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -118,7 +116,7 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockFromTo(BlockFromToEvent e) {
-			Flag flag = null;
+			Flag flag;
 			
 			switch(e.getBlock().getType()) {
 				case DRAGON_EGG:
@@ -129,7 +127,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -138,7 +136,7 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockSpread(BlockSpreadEvent e) {
-			Flag flag = null;
+			Flag flag;
 			
 			switch(e.getBlock().getType()) {
 				case GRASS:
@@ -149,7 +147,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 			
 			if (flag != null) {
-				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -160,7 +158,7 @@ public class FlagsBlock extends JavaPlugin {
 		private void onLeafDecay(LeavesDecayEvent e) {
 			final Flag flag = Flags.getRegistrar().getFlag("LeafDecay");
 			if (flag != null) {
-				e.setCancelled(!Area.getAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 	}
