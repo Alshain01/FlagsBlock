@@ -24,8 +24,8 @@
 
 package io.github.alshain01.FlagsBlock;
 
-import io.github.alshain01.Flags.*;
-import io.github.alshain01.Flags.System;
+import io.github.alshain01.flags.*;
+import io.github.alshain01.flags.System;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -85,7 +85,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!io.github.alshain01.Flags.System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
