@@ -22,7 +22,7 @@
  http://creativecommons.org/licenses/by-nc/3.0/
  */
 
-package io.github.alshain01.FlagsBlock;
+package io.github.alshain01.flagsblock;
 
 import io.github.alshain01.flags.*;
 import io.github.alshain01.flags.System;
