@@ -28,6 +28,7 @@ import io.github.alshain01.flags.*;
 import io.github.alshain01.flags.System;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
@@ -76,8 +77,8 @@ public class FlagsBlock extends JavaPlugin {
 	 * The event handlers for the flags we created earlier
 	 */
 	private class BlockListener implements Listener {
-        System system = System.getActive();
-        Map<String, Flag> flags = new HashMap<String, Flag>();
+        final System system = System.getActive();
+        final Map<String, Flag> flags;
 
         private BlockListener(Map<String, Flag> flags) {
             this.flags = flags;
@@ -111,7 +112,9 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockForm(BlockFormEvent e) {
 			Flag flag;
-			switch(e.getBlock().getType()) {
+            Block block = e.getBlock();
+
+			switch(block.getType()) {
 			case SNOW:
 				flag = flags.get("Snow");
 				break;
@@ -123,7 +126,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(block.getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -132,16 +135,7 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockFromTo(BlockFromToEvent e) {
-			Flag flag;
-			
-			switch(e.getBlock().getType()) {
-				case DRAGON_EGG:
-					flag = flags.get("DragonEggTp");
-					break;
-				default:
-					return;
-			}
-
+			final Flag flag = flags.get("DragonEggTp");
 			if (flag != null) {
 				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
@@ -153,17 +147,25 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockSpread(BlockSpreadEvent e) {
 			Flag flag;
-			
-			switch(e.getBlock().getType()) {
+			final Block block = e.getBlock();
+
+			switch(block.getType()) {
 				case GRASS:
 					flag = flags.get("Grass");
 					break;
+                case FIRE:
+                    flag = flags.get("Fire");
+                    break;
+                case BROWN_MUSHROOM:
+                case RED_MUSHROOM:
+                    flag = flags.get("Mushroom");
+                    break;
 				default:
 					return;
 			}
 			
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(block.getLocation()).getValue(flag, false));
 			}
 		}
 
