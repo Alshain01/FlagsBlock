@@ -44,9 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Flags - Block Module that adds block flags to the plug-in Flags.
- * 
- * @author Alshain01
+ * Flags Block - Module that adds block flags to the plug-in Flags.
  */
 public class FlagsBlock extends JavaPlugin {
 
