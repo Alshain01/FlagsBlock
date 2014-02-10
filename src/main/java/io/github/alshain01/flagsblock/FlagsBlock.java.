@@ -38,12 +38,17 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Flags - Block Module that adds block flags to the plug-in Flags.
  * 
  * @author Alshain01
  */
 public class FlagsBlock extends JavaPlugin {
+
 	/**
 	 * Called when this module is enabled
 	 */
@@ -57,16 +62,27 @@ public class FlagsBlock extends JavaPlugin {
 		}
 
 		// Connect to the data file and register the flags
-		Flags.getRegistrar().register(new ModuleYML(this, "flags.yml"), "Block");
+		Set<Flag> flags = Flags.getRegistrar().register(new ModuleYML(this, "flags.yml"), "Block");
+        Map<String, Flag> flagMap = new HashMap<String, Flag>();
+        for(Flag f : flags) {
+            flagMap.put(f.getName(), f);
+        }
 
 		// Load plug-in events and data
-		Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new BlockListener(flagMap), this);
 	}
 	
 	/*
 	 * The event handlers for the flags we created earlier
 	 */
 	private class BlockListener implements Listener {
+        System system = System.getActive();
+        Map<String, Flag> flags = new HashMap<String, Flag>();
+
+        private BlockListener(Map<String, Flag> flags) {
+            this.flags = flags;
+        }
+
 		/*
 		 * Snow and Ice melt event handler
 		 */
@@ -75,17 +91,17 @@ public class FlagsBlock extends JavaPlugin {
 			Flag flag;
 			switch(e.getBlock().getType()) {
 				case SNOW:
-					flag = Flags.getRegistrar().getFlag("SnowMelt");
+					flag = flags.get("SnowMelt");
 					break;
 				case ICE:
-					flag = Flags.getRegistrar().getFlag("IceMelt");
+					flag = flags.get("IceMelt");
 					break;
 				default:
 					return;
 			}
 
 			if (flag != null) {
-				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -97,17 +113,17 @@ public class FlagsBlock extends JavaPlugin {
 			Flag flag;
 			switch(e.getBlock().getType()) {
 			case SNOW:
-				flag = Flags.getRegistrar().getFlag("Snow");
+				flag = flags.get("Snow");
 				break;
 			case ICE:
-				flag = Flags.getRegistrar().getFlag("Ice");
+				flag = flags.get("Ice");
 				break;
 			default:
 				return;
 			}
 
 			if (flag != null) {
-				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -120,14 +136,14 @@ public class FlagsBlock extends JavaPlugin {
 			
 			switch(e.getBlock().getType()) {
 				case DRAGON_EGG:
-					flag = Flags.getRegistrar().getFlag("DragonEggTp");
+					flag = flags.get("DragonEggTp");
 					break;
 				default:
 					return;
 			}
 
 			if (flag != null) {
-				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -140,14 +156,14 @@ public class FlagsBlock extends JavaPlugin {
 			
 			switch(e.getBlock().getType()) {
 				case GRASS:
-					flag = Flags.getRegistrar().getFlag("Grass");
+					flag = flags.get("Grass");
 					break;
 				default:
 					return;
 			}
 			
 			if (flag != null) {
-				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -156,9 +172,9 @@ public class FlagsBlock extends JavaPlugin {
 		 */
 		@EventHandler(ignoreCancelled = true)
 		private void onLeafDecay(LeavesDecayEvent e) {
-			final Flag flag = Flags.getRegistrar().getFlag("LeafDecay");
+			final Flag flag = flags.get("LeafDecay");
 			if (flag != null) {
-				e.setCancelled(!System.getActive().getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 	}
