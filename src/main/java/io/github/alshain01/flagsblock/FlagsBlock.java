@@ -28,7 +28,6 @@ import io.github.alshain01.flags.*;
 import io.github.alshain01.flags.System;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
@@ -110,9 +109,7 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockForm(BlockFormEvent e) {
 			Flag flag;
-            Block block = e.getBlock();
-
-			switch(block.getType()) {
+			switch(e.getNewState().getType()) {
 			case SNOW:
 				flag = flags.get("Snow");
 				break;
@@ -124,7 +121,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(block.getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -145,9 +142,7 @@ public class FlagsBlock extends JavaPlugin {
 		@EventHandler(ignoreCancelled = true)
 		private void onBlockSpread(BlockSpreadEvent e) {
 			Flag flag;
-			final Block block = e.getBlock();
-
-			switch(block.getType()) {
+			switch(e.getNewState().getType()) {
 				case GRASS:
 					flag = flags.get("Grass");
 					break;
@@ -163,7 +158,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 			
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(block.getLocation()).getValue(flag, false));
+				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
