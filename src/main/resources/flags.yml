@@ -1,6 +1,6 @@
 Flag:
   DragonEggTp:
-    Description: Toggles allowing a dragon egg to teleport.
+    Description: Toggles dragon egg's teleportation.
   Grass:
     Description: Toggles grass spreading.
   Ice:
