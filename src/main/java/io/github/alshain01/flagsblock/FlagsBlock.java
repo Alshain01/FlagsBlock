@@ -24,8 +24,10 @@
 
 package io.github.alshain01.flagsblock;
 
-import io.github.alshain01.flags.*;
-import io.github.alshain01.flags.System;
+import io.github.alshain01.flags.Flags;
+import io.github.alshain01.flags.Flag;
+import io.github.alshain01.flags.ModuleYML;
+import io.github.alshain01.flags.CuboidType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -45,6 +47,7 @@ import java.util.Set;
 /**
  * Flags Block - Module that adds block flags to the plug-in Flags.
  */
+@SuppressWarnings("unused")
 public class FlagsBlock extends JavaPlugin {
 
 	/**
@@ -74,7 +77,7 @@ public class FlagsBlock extends JavaPlugin {
 	 * The event handlers for the flags we created earlier
 	 */
 	private class BlockListener implements Listener {
-        final System system = System.getActive();
+        final CuboidType system = CuboidType.getActive();
         final Map<String, Flag> flags;
 
         private BlockListener(Map<String, Flag> flags) {
