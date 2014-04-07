@@ -1,19 +1,18 @@
-Flag:
-  DragonEggTp:
-    Description: Toggles dragon egg's teleportation.
-  Grass:
-    Description: Toggles grass spreading.
-  Ice:
-    Description: Toggles ice forming in snowy biomes.
-  IceMelt:
-    Description: Toggles ice melting due to light level.
-  LeafDecay:
-    Description: Toggles leaf decay over time.
-  Snow:
-    Description: Toggles snow forming in snowy biomes.
-  SnowMelt:
-    Description: Toggles snow melting due to light level.
-  Mushroom:
-    Description: Toggles mushroom spreading.
-  Fire:
-    Description: Toggles fire spreading.
+DragonEggTp:
+  Description: Toggles dragon egg's teleportation.
+Grass:
+  Description: Toggles grass spreading.
+Ice:
+  Description: Toggles ice forming in snowy biomes.
+IceMelt:
+  Description: Toggles ice melting due to light level.
+LeafDecay:
+  Description: Toggles leaf decay over time.
+Snow:
+  Description: Toggles snow forming in snowy biomes.
+SnowMelt:
+  Description: Toggles snow melting due to light level.
+Mushroom:
+  Description: Toggles mushroom spreading.
+Fire:
+  Description: Toggles fire spreading.

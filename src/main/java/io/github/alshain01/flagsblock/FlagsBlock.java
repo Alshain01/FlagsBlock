@@ -24,12 +24,11 @@
 
 package io.github.alshain01.flagsblock;
 
-import io.github.alshain01.flags.Flags;
-import io.github.alshain01.flags.Flag;
-import io.github.alshain01.flags.ModuleYML;
-import io.github.alshain01.flags.CuboidType;
+import io.github.alshain01.flags.api.Flag;
+import io.github.alshain01.flags.api.FlagsAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFadeEvent;
@@ -63,7 +62,8 @@ public class FlagsBlock extends JavaPlugin {
 		}
 
 		// Connect to the data file and register the flags
-		Set<Flag> flags = Flags.getRegistrar().register(new ModuleYML(this, "flags.yml"), "Block");
+        YamlConfiguration flagConfig = YamlConfiguration.loadConfiguration(getResource("flags.yml"));
+		Set<Flag> flags = FlagsAPI.getRegistrar().register(flagConfig, "Block");
         Map<String, Flag> flagMap = new HashMap<String, Flag>();
         for(Flag f : flags) {
             flagMap.put(f.getName(), f);
@@ -77,7 +77,6 @@ public class FlagsBlock extends JavaPlugin {
 	 * The event handlers for the flags we created earlier
 	 */
 	private class BlockListener implements Listener {
-        final CuboidType system = CuboidType.getActive();
         final Map<String, Flag> flags;
 
         private BlockListener(Map<String, Flag> flags) {
@@ -102,7 +101,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -124,7 +123,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -135,7 +134,7 @@ public class FlagsBlock extends JavaPlugin {
 		private void onBlockFromTo(BlockFromToEvent e) {
 			final Flag flag = flags.get("DragonEggTp");
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -161,7 +160,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 			
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 
@@ -172,7 +171,7 @@ public class FlagsBlock extends JavaPlugin {
 		private void onLeafDecay(LeavesDecayEvent e) {
 			final Flag flag = flags.get("LeafDecay");
 			if (flag != null) {
-				e.setCancelled(!system.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
 			}
 		}
 	}
