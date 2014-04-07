@@ -59,6 +59,7 @@ public class FlagsBlock extends JavaPlugin {
 		if (!pm.isPluginEnabled("Flags")) {
 			getLogger().severe("Flags was not found. Shutting down.");
 			pm.disablePlugin(this);
+            return;
 		}
 
 		// Connect to the data file and register the flags
