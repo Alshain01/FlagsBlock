@@ -102,7 +102,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getState(flag, false));
 			}
 		}
 
@@ -124,7 +124,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 
 			if (flag != null) {
-				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getState(flag, false));
 			}
 		}
 
@@ -135,7 +135,7 @@ public class FlagsBlock extends JavaPlugin {
 		private void onBlockFromTo(BlockFromToEvent e) {
 			final Flag flag = flags.get("DragonEggTp");
 			if (flag != null) {
-				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getState(flag, false));
 			}
 		}
 
@@ -161,7 +161,7 @@ public class FlagsBlock extends JavaPlugin {
 			}
 			
 			if (flag != null) {
-				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getState(flag, false));
 			}
 		}
 
@@ -172,7 +172,7 @@ public class FlagsBlock extends JavaPlugin {
 		private void onLeafDecay(LeavesDecayEvent e) {
 			final Flag flag = flags.get("LeafDecay");
 			if (flag != null) {
-				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getValue(flag, false));
+				e.setCancelled(!FlagsAPI.getAreaAt(e.getBlock().getLocation()).getState(flag, false));
 			}
 		}
 	}
